@@ -33,6 +33,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.function.Supplier;
 
 public class SweetAdaptiveShop extends BukkitPlugin {
     public static SweetAdaptiveShop getInstance() {
@@ -195,7 +196,7 @@ public class SweetAdaptiveShop extends BukkitPlugin {
     }
 
     @Override
-    protected void onDisable() {
+    public void onDisable() {
         // 关闭执行器
         asyncExecutor.shutdown();
         timeoutScheduler.shutdown();
@@ -258,7 +259,7 @@ public class SweetAdaptiveShop extends BukkitPlugin {
     }
     
     /**
-     * 安全执行数据库操作 - Java 8 兼容版本
+     * 安全执行数据库操作
      */
     public <T> CompletableFuture<T> executeDatabaseAsync(Supplier<T> operation) {
         CompletableFuture<T> future = CompletableFuture.supplyAsync(() -> {
@@ -274,7 +275,7 @@ public class SweetAdaptiveShop extends BukkitPlugin {
     }
     
     /**
-     * 安全执行数据库操作（无返回值）- Java 8 兼容版本
+     * 安全执行数据库操作（无返回值）
      */
     public CompletableFuture<Void> executeDatabaseAsync(Runnable operation) {
         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
