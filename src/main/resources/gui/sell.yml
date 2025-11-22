@@ -1,0 +1,72 @@
+title: '随机商店-出售'
+inventory:
+  - '售售售售卖售售售售'
+  - '售物物物物物物物售'
+  - '售物物物物物物物售'
+  - '售物物物物物物物售'
+  - '售售售售售售售售售'
+  - '售售刷售返收买收收'
+# 是否在购买物品后关闭界面
+# 关闭此项，则购买物品后刷新界面
+close-after-submit: false
+main-icons:
+  物:
+    material: PAPER
+    display: '&d&l%name%'
+    lore:
+      - description
+      - ''
+      - '  &6价格&f: &d%price%&6金币'
+      - '  &b因数&f: &d%dynamic%x'
+      - '  &9状态&f: %dynamic_placeholder%'
+      - ''
+      - operation
+    lore-bypass:
+      - description
+      - ''
+      - '  &6价格&f: &d%price%&6金币'
+      - ''
+      - operation
+    operations:
+      one: '&a左键&7 &f购买1个 &7(%price%金币)'
+      stack: '&b右键&7 &f购买1组 &7(%count%个，%price%金币)'
+  物_空白:
+    material: AIR
+  刷:
+    material: PAPER
+    custom-model-data: 10000
+    display: '&d刷新出售 &7(%type%)'
+    lore:
+      - ''
+      - '  &f可用刷新券数量: &e%count%'
+      - ''
+      - operation
+    operations:
+      available: '&a左键 &f刷新当前分类的商店物品'
+      unavailable: '&c&m左键&r&c 无刷新券，签到可获得'
+other-icons:
+  收:
+    material: YELLOW_STAINED_GLASS_PANE
+    display: '&e收购商店'
+  售:
+    material: MAGENTA_STAINED_GLASS_PANE
+    display: '&d出售商店'
+  卖:
+    material: AMETHYST_SHARD
+    display: '&d出售商店'
+    lore:
+      - '&d每日12点刷新21件商品'
+      - '&d全服玩家共享动态价格'
+      - '&d全服提交收购的物品可降低其售价'
+  买:
+    material: GOLD_INGOT
+    custom-model-data: 10000
+    display: '&e前往收购商店'
+    left-click-commands:
+      - '[console]sashop open buy default %player_name%'
+  返:
+    material: CLOCK
+    custom-model-data: 10000
+    display: '&e返回菜单'
+    left-click-commands:
+      - '[player]dmenu open 菜单'

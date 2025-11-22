@@ -1,0 +1,30 @@
+group: default
+type: vanilla
+material: SUGAR_CANE
+commands:
+  - '[give]SUGAR_CANE %count%'
+permission: 'sweet.adaptive.shop.sell.%id%'
+price:
+  base: 0.1
+  scale:
+    range: 200-1000
+    when-dynamic-value:
+      large-than: -1
+      scale-formula: '2^(MAX(0,value-%sashop_dynamic_甘蔗%)/1728)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 6912
+  cut-when-maximum: false
+  strategy: recover
+  recover: 3456
+  routine: daily
+  display-formula: 'MIN(10,MAX(2,2^(MAX(value-%sashop_dynamic_甘蔗%,0)/1728)))'
+  display-format: '0.00'
+  placeholders:
+    '4608': '&c商品脱销'
+    '2304': '&e正常出售'
+    '0': '&a商品充足'

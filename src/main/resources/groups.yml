@@ -1,0 +1,15 @@
+# 商品分组，需要权限 sweet.adaptive.shop.group.组名 才能打开相应菜单
+groups:
+  default:
+    display: '物资'
+    # 每天刷新多少个物品
+    daily-count: 21
+  special:
+    display: '特殊'
+    # 每天刷新多少个物品
+    daily-count: 2
+  keep:
+    display: '保留'
+    # 设为0，代表此组保留，不可打开这个组的分组菜单
+    # 用于在订单中填入不希望出现在每日商品中的商品
+    daily-count: 0

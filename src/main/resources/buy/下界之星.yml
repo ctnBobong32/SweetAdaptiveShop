@@ -1,0 +1,28 @@
+group: default
+type: vanilla
+material: NETHER_STAR
+permission: 'sweet.adaptive.shop.buy.%id%'
+price:
+  base: 20
+  scale:
+    range: 0.1-100
+    when-dynamic-value:
+      large-than: 108
+      scale-formula: '0.5^(value/16)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 216
+  cut-when-maximum: false
+  strategy: recover
+  recover: 108
+  routine: daily
+  display-formula: 'MAX(0,0.5^(MAX(value-108,0)/16)*100)'
+  display-format: '0.00'
+  placeholders:
+    '144': '&c物资过剩'
+    '72': '&e正常收购'
+    '0': '&a物资急缺'

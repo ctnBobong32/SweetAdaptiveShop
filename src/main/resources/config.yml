@@ -1,0 +1,76 @@
+# 重定向路径
+path:
+  buy: ./buy
+  order: ./order
+
+# 应该用玩家名还是UUID来储存玩家数据
+# auto - 使用 server.properties 中的 online-mode 设置
+# false - 使用玩家名储存
+# true - 使用UUID储存
+###### 警告: 已经开始使用本插件之后不要修改此选项 ######
+###### 警告: 已经开始使用本插件之后不要修改此选项 ######
+###### 警告: 已经开始使用本插件之后不要修改此选项 ######
+uuid-mode: auto
+# 针对插件旧版本的安全选项，开启此项，则 uuid-mode 始终为 false
+# 将此项注释掉，则此项默认为 true
+uuid-mode-legacy: false
+
+orders-count: 3
+
+# 周期具体时间
+routine-time:
+  hour: 4
+  minute: 0
+  second: 0
+
+# ==================== FOLIA 兼容性优化配置 ====================
+# 异步操作配置 - 解决线程阻塞问题
+async-operations:
+  # 启用异步玩家数据加载
+  enabled: true
+  # 操作超时时间（毫秒），防止无限期阻塞
+  timeout: 5000
+  # 失败重试次数
+  retry-attempts: 3
+  # 异步保存玩家数据
+  async-save: true
+
+# 玩家数据加载配置
+player-data:
+  # 玩家数据加载超时时间（毫秒）
+  load-timeout: 3000
+  # 使用异步加载玩家数据
+  use-async-loading: true
+  # 缓存玩家数据以减少磁盘IO
+  cache-enabled: true
+  # 缓存过期时间（分钟）
+  cache-expiry: 30
+
+# 数据库操作优化
+database:
+  # 使用批量操作提升性能
+  use-batch-operations: true
+  # 批量操作大小
+  batch-size: 100
+  # 自动保存间隔（秒）
+  auto-save-interval: 300
+  # 异步保存数据库
+  async-save: true
+
+# GUI操作优化
+gui:
+  # 异步处理GUI点击事件
+  async-click-handling: true
+  # GUI更新延迟（ticks）
+  update-delay: 1
+  # 防止GUI操作阻塞
+  non-blocking-operations: true
+
+# 性能监控配置
+performance:
+  # 启用性能监控
+  monitoring-enabled: true
+  # 记录慢操作阈值（毫秒）
+  slow-operation-threshold: 1000
+  # 监控采样率（0.0-1.0）
+  sampling-rate: 0.1

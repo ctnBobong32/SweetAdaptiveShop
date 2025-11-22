@@ -1,0 +1,88 @@
+messages:
+  give:
+    type-not-found: '&r[&a随机商店&f]&r &e无效的物品类型 &f%s'
+    player: '&r[&a随机商店&f]&r &a你收到了商店刷新券'
+    success: '&r[&a随机商店&f]&r &a成功给予 &f%s&r &b%d&r &a个 &f%s'
+    full: '&r[&a随机商店&f]&r &f你的物品栏已满，剩余物品已掉落到你附近'
+  refresh:
+    outdate: '&r[&a随机商店&f]&r &e刷新券 &f%s&r &e已过期'
+    order:
+      not-enough: '&r[&a随机商店&f]&r &e你没有足够的刷新券!'
+      success: '&r[&a随机商店&f]&r &a你成功刷新了订单列表!'
+      success-other: '&r[&a随机商店&f]&r &a你成功刷新了 %s 的订单列表!'
+    buy:
+      success: '&r[&a随机商店&f]&r &a你成功刷新了%s商品列表!'
+      not-enough: '&r[&a随机商店&f]&r &e你没有足够的刷新券!'
+      success-other: '&r[&a随机商店&f]&r &a你成功刷新了 %s 的%s商品列表!'
+    sell:
+      success: '&r[&a随机商店&f]&r &a你成功刷新了%s商品列表!'
+      success-other: '&r[&a随机商店&f]&r &a你成功刷新了 %s 的%s商品列表!'
+      not-enough: '&r[&a随机商店&f]&r &e你没有足够的刷新券!'
+    type-invalid: '&r[&a随机商店&f]&r &e无效的刷新类型 %s'
+  gui:
+    buy:
+      outdate: '&e这个商品已经过期了! 请重新打开菜单以刷新列表!'
+      success: '&a你提交了 &e%d&a 个 &e%s&r&a，获得 &e%s&r &a金币!'
+      not-enough: '&e你没有足够的物品提交到商店!'
+      maximum: '&e这个商店暂时不再接受这种物品了!'
+    not-found: '&e找不到这个界面!'
+    order:
+      success: '&a你成功提交了订单 &e%s&r&a!'
+      has-done: '&e这个订单已经完成过了!'
+      outdate: '&e这个订单已经过期了! 请重新打开菜单以刷新列表!'
+      not-enough: '&e你没有足够的物品提交这个订单!'
+    limitation:
+      format: '&e%current%&7/&e%max%'
+      reach-tips: '&e已到达购买上限'
+      infinite: '&e无限'
+    sell:
+      outdate: '&e这个商品已经过期了! 请重新打开菜单以刷新列表!'
+      success: '&a你花费 &e%s&r &a金币，购买了 &e%d&a 个 &e%s&r&a!'
+      maximum: '&e这个商品已经售罄了!'
+      no-money: '&e你没有足够的物品提交到商店!'
+  template:
+    not-found: '&r[&a随机商店&f]&r &e找不到名为 &f%s&r &e的物品模板'
+  reload:
+    database: '&r[&a随机商店&f]&r &a数据库已重新连接'
+    config: '&r[&a随机商店&f]&r &a配置文件已重载'
+  group:
+    not-found: '&r[&a随机商店&f]&r &e分组 &f%s&r &e不存在'
+    not-input: '&r[&a随机商店&f]&r &e你应该输入分组名'
+  help:
+  - ''
+  - '&d&lSweetAdaptiveShop &c&l帮助命令&r'
+  - '&f/sashop open buy'
+  - '  &8-- &7打开随机商店'
+  - '&f/sashop open order'
+  - '  &8-- &7打开收购订单'
+  - ''
+  player:
+    not-online: '&r[&a随机商店&f]&r &e玩家 &f%s&r &e不在线'
+    no-permission: '&r[&a随机商店&f]&r &c你没有执行此操作的权限'
+    only: 只有玩家才能执行该命令
+    not-found: '&r[&a随机商店&f]&r &e玩家 &f%s&r &e不存在'
+  int:
+    much: '&r[&a随机商店&f]&r &e你输入的数量太多了'
+    invalid: '&r[&a随机商店&f]&r &e请输入正确的数量'
+  help-op:
+  - ''
+  - '&d&lSweetAdaptiveShop &c&l帮助命令&r&f &7<&e必选参数&7> [&e可选参数&7]'
+  - '&f/sashop open buy &7[&e分组&7] [&e玩家&7]'
+  - '  &8-- &7为自己或某在线玩家打开随机商店'
+  - '&f/sashop open order &7[&e玩家&7]'
+  - '  &8-- &7为自己或某在线玩家打开收购订单'
+  - '&f/sashop give &7<&e玩家&7> <&e物品模板&7> <&e数量&7> <&e物品类型&7> &7<&e时间…&7>'
+  - '  &8-- &7以特定的模板和数量，特定的到期时间，给予某人道具'
+  - '    &7物品模板请见 template.yml，'
+  - '    &7物品类型可使用 buy 或 order。'
+  - '    &7时间计算操作请参考<click:open_url:https://www.minebbs.com/resources/9883><hover:show_text:''我是链接''>&b&n这个链接</hover></click>&r&7的文档说明。'
+  - '    &7特别地，多个计算操作使用空格而不是下划线隔开，'
+  - '    &7时间填&f 0 &7或者&f infinite &7代表永久。'
+  - '&f/sashop reload database'
+  - '  &8-- &7重载 database.yml 并重新连接数据库'
+  - '&f/sashop reload'
+  - '  &8-- &7重载插件配置文件，但不重新连接数据库'
+  - ''
+  custom-gui:
+    not-found: '&r[&a随机商店&f]&r &e菜单 &f%s&r &e不存在'
+    not-input: '&r[&a随机商店&f]&r &e你应该输入菜单名'

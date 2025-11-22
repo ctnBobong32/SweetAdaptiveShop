@@ -1,0 +1,30 @@
+group: default
+type: vanilla
+material: OBSIDIAN
+commands:
+  - '[give]OBSIDIAN %count%'
+permission: 'sweet.adaptive.shop.sell.%id%'
+price:
+  base: 5
+  scale:
+    range: 200-1000
+    when-dynamic-value:
+      large-than: -1
+      scale-formula: '2^(MAX(0,value-%sashop_dynamic_黑曜石%)/108)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 432
+  cut-when-maximum: false
+  strategy: recover
+  recover: 216
+  routine: daily
+  display-formula: 'MIN(10,MAX(2,2^(MAX(value-%sashop_dynamic_黑曜石%,0)/108)))'
+  display-format: '0.00'
+  placeholders:
+    '288': '&c商品脱销'
+    '144': '&e正常出售'
+    '0': '&a商品充足'

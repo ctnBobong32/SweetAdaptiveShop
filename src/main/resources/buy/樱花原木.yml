@@ -1,0 +1,28 @@
+group: default
+type: vanilla
+material:   CHERRY_LOG
+permission: 'sweet.adaptive.shop.buy.%id%'
+price:
+  base: 0.2
+  scale:
+    range: 1-100
+    when-dynamic-value:
+      large-than: 1728
+      scale-formula: '0.5^(value/256)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 3456
+  cut-when-maximum: false
+  strategy: recover
+  recover: 1728
+  routine: daily
+  display-formula: 'MAX(1,0.5^(MAX(value-1728,0)/256)*100)'
+  display-format: '0.00'
+  placeholders:
+    '2304': '&c物资过剩'
+    '1152': '&e正常收购'
+    '0': '&a物资急缺'

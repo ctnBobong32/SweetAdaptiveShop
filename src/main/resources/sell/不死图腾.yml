@@ -1,0 +1,30 @@
+group: default
+type: vanilla
+material: TOTEM_OF_UNDYING
+commands:
+  - '[give]TOTEM_OF_UNDYING %count%'
+permission: 'sweet.adaptive.shop.sell.%id%'
+price:
+  base: 10
+  scale:
+    range: 200-1000
+    when-dynamic-value:
+      large-than: -1
+      scale-formula: '2^(MAX(0,value-%sashop_dynamic_不死图腾%)/54)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 216
+  cut-when-maximum: false
+  strategy: recover
+  recover: 108
+  routine: daily
+  display-formula: 'MIN(10,MAX(2,2^(MAX(value-%sashop_dynamic_不死图腾%,0)/54)))'
+  display-format: '0.00'
+  placeholders:
+    '144': '&c商品脱销'
+    '72': '&e正常出售'
+    '0': '&a商品充足'

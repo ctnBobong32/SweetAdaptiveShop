@@ -1,0 +1,28 @@
+group: default
+type: vanilla
+material: SLIME_BLOCK
+permission: 'sweet.adaptive.shop.buy.%id%'
+price:
+  base: 1
+  scale:
+    range: 0.1-100
+    when-dynamic-value:
+      large-than: 864
+      scale-formula: '0.5^(value/128)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 1728
+  cut-when-maximum: false
+  strategy: recover
+  recover: 864
+  routine: daily
+  display-formula: 'MAX(0,0.5^(MAX(value-864,0)/128)*100)'
+  display-format: '0.00'
+  placeholders:
+    '1152': '&c物资过剩'
+    '576': '&e正常收购'
+    '0': '&a物资急缺'

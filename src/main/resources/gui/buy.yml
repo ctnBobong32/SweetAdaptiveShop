@@ -1,0 +1,72 @@
+title: '随机商店-收购'
+inventory:
+  - '收收收收买收收收收'
+  - '收物物物物物物物收'
+  - '收物物物物物物物收'
+  - '收物物物物物物物收'
+  - '收收收收收收收收收'
+  - '收收刷收返售卖售售'
+# 是否在提交物品后关闭界面
+# 关闭此项，则提交物品后刷新界面
+close-after-submit: false
+main-icons:
+  物:
+    material: PAPER
+    display: '&e&l%name%'
+    lore:
+      - description
+      - ''
+      - '  &6价格&f: &e%price%&6金币'
+      - '  &b因数&f: &e%dynamic%%'
+      - '  &9状态&f: %dynamic_placeholder%'
+      - ''
+      - operation
+    lore-bypass:
+      - description
+      - ''
+      - '  &f价格: &e%price%金币'
+      - ''
+      - operation
+    operations:
+      one: '&a左键 &f出售1个 &7(%price%金币)'
+      stack: '&b右键 &f出售1组 &7(%count%个，%price%金币)'
+      all: '&eShift+左键&7 &f出售全部 &7(%count%个，%price%金币)'
+  物_空白:
+    material: AIR
+  刷:
+    material: PAPER
+    custom-model-data: 10000
+    display: '&e刷新收购 &7(%type%)'
+    lore:
+      - ''
+      - '  &f可用刷新券数量: &e%count%'
+      - ''
+      - operation
+    operations:
+      available: '&a左键&7 &f刷新当前分类的商店物品'
+      unavailable: '&c&m左键&r&c 无刷新券，签到可获得'
+other-icons:
+  收:
+    material: YELLOW_STAINED_GLASS_PANE
+    display: '&e收购商店'
+  售:
+    material: MAGENTA_STAINED_GLASS_PANE
+    display: '&d出售商店'
+  买:
+    material: GOLD_INGOT
+    display: '&e收购商店'
+    lore:
+      - '&e每日12点刷新21件商品'
+      - '&e全服共享动态价格'
+  卖:
+    material: AMETHYST_SHARD
+    custom-model-data: 10000
+    display: '&d前往出售商店'
+    left-click-commands:
+      - '[console]sashop open sell default %player_name%'
+  返:
+    material: CLOCK
+    custom-model-data: 10000
+    display: '&e返回菜单'
+    left-click-commands:
+      - '[player]dmenu open 菜单'

@@ -1,0 +1,30 @@
+group: default
+type: vanilla
+material: MELON
+commands:
+  - '[give]MELON %count%'
+permission: 'sweet.adaptive.shop.sell.%id%'
+price:
+  base: 1
+  scale:
+    range: 200-1000
+    when-dynamic-value:
+      large-than: -1
+      scale-formula: '2^(MAX(0,value-%sashop_dynamic_西瓜%)/432)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 1728
+  cut-when-maximum: false
+  strategy: recover
+  recover: 864
+  routine: daily
+  display-formula: 'MIN(10,MAX(2,2^(MAX(value-%sashop_dynamic_西瓜%,0)/432)))'
+  display-format: '0.00'
+  placeholders:
+    '1152': '&c商品脱销'
+    '576': '&e正常出售'
+    '0': '&a商品充足'

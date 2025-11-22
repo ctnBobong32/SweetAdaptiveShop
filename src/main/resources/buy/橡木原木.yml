@@ -1,0 +1,73 @@
+# 商品属于哪个分组
+group: default
+# 商品类型
+# vanilla 为原版物品，使用参数 material
+# mythic 为MythicMobs物品，使用参数 mythic
+# itemsadder 为ItemsAdder物品，使用参数 itemsadder
+type: vanilla
+# 旧版本可使用 '物品ID:子ID' 格式，如 'WOOL:3'
+# 在旧版本，不输入冒号添加子ID，则代表这一物品ID下任意子ID的物品都可以匹配
+material: OAK_LOG
+# mythic: ExampleItem
+# itemsadder: '_iainternal:icon_arrow_chest'
+
+# 展示名，可不输入，不输入则自动获取，仅 1.19.4 及以上可以自动获取原版物品名
+# display-name: '名字'
+
+# 随机抽中该物品所需权限，默认为 sweet.adaptive.shop.buy.商品ID
+permission: 'sweet.adaptive.shop.buy.%id%'
+
+# 价格设置
+price:
+  # 基础价格
+  base: 0.1
+  # 价格缩放设置
+  scale:
+    # 缩放范围百分比，默认配置为最低可以缩放到 1%
+    range: 1-100
+    when-dynamic-value:
+      # 动态值大于多少时开始缩放
+      large-than: 3456
+      # 价格缩放公式，此处 value 为动态值变量减去 large-than 的值
+      # 此处为动态值大于 100 后，基础缩放为 100%，每增加1点动态值，缩放减少 1%
+      # 文档：https://github.com/ezylang/EvalEx/tree/2.x?tab=readme-ov-file#supported-functions
+      scale-formula: '0.5^(value/512)'
+    when-has-permission:
+      # 当拥有某权限时
+      permission: 'none'
+      # 工作模式
+      # no - 价格缩放与权限无关
+      # enable - 有权限时开启价格缩放
+      # disable - 没有权限时开启价格缩放
+      mode: 'no'
+# 动态值设置
+dynamic-value:
+  # 是否每个玩家独立储存动态值
+  # false - 全服共用一个动态值
+  # true - 每个玩家的动态值都不同
+  per-player: false
+  # 每向系统出售一个，动态值增加多少
+  add: 1
+  # 动态值上限（0 为无限制），在策略为 recover 时建议设置，避免动态值无限制增加
+  maximum: 6912
+  # 是否在动态值达到上限时停止收购
+  cut-when-maximum: false
+  # 动态值周期策略，reset 重置为 0，recover 每周期减少特定量的动态值
+  strategy: recover
+  # 策略为 recover 时，动态值每周期降低多少
+  recover: 3456
+  # 动态值执行策略的周期，
+  # daily 每天指定时间，weekly 每周一指定时间，monthly 每月一号指定时间
+  # 具体指定的时间请见 config.yml
+  routine: daily
+  # 显示该数值的公式，value 为动态值变量
+  # 文档：https://github.com/ezylang/EvalEx/tree/2.x?tab=readme-ov-file#supported-functions
+  display-formula: 'MAX(1,0.5^(MAX(value-3456,0)/512)*100)'
+  # 动态值变量显示格式
+  display-format: '0.00'
+  # 动态值大于多少时，%dynamic_placeholder% 显示的内容
+  # 配置中越大越先显示
+  placeholders:
+    '4608': '&c物资过剩'
+    '2304': '&e正常收购'
+    '0': '&a物资急缺'

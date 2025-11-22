@@ -1,0 +1,30 @@
+group: default
+type: vanilla
+material: DRIPSTONE_BLOCK
+commands:
+  - '[give]DRIPSTONE_BLOCK %count%'
+permission: 'sweet.adaptive.shop.sell.%id%'
+price:
+  base: 0.5
+  scale:
+    range: 200-1000
+    when-dynamic-value:
+      large-than: -1
+      scale-formula: '2^(MAX(0,value-%sashop_dynamic_滴水石块%)/864)'
+    when-has-permission:
+      permission: 'none'
+      mode: 'no'
+dynamic-value:
+  per-player: false
+  add: 1
+  maximum: 3456
+  cut-when-maximum: false
+  strategy: recover
+  recover: 1728
+  routine: daily
+  display-formula: 'MIN(10,MAX(2,2^(MAX(value-%sashop_dynamic_滴水石块%,0)/864)))'
+  display-format: '0.00'
+  placeholders:
+    '2304': '&c商品脱销'
+    '1152': '&e正常出售'
+    '0': '&a商品充足'
