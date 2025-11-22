@@ -33,6 +33,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -98,6 +100,9 @@ public class SweetAdaptiveShop extends BukkitPlugin {
     private boolean supportOffHand;
     private boolean supportItemsAdder;
     private boolean uuidMode;
+    
+    // 添加异步执行器
+    private final Executor asyncExecutor = Executors.newCachedThreadPool();
 
     public boolean isSupportTranslatable() {
         return supportTranslatable;
@@ -193,7 +198,7 @@ public class SweetAdaptiveShop extends BukkitPlugin {
     }
 
     /**
-     * 安全地获取玩家名称（带超时保护）
+     * 安全地获取玩家名称（带超时保护）- 修复版本
      */
     public CompletableFuture<String> getPlayerNameAsync(OfflinePlayer player) {
         return CompletableFuture.supplyAsync(() -> {
@@ -204,11 +209,11 @@ public class SweetAdaptiveShop extends BukkitPlugin {
                 getLogger().warning("获取玩家名称失败: " + e.getMessage());
                 return player.getUniqueId().toString();
             }
-        }, getScheduler().async()).orTimeout(3, TimeUnit.SECONDS);
+        }, asyncExecutor).orTimeout(3, TimeUnit.SECONDS);
     }
     
     /**
-     * 安全执行数据库操作
+     * 安全执行数据库操作 - 修复版本
      */
     public <T> CompletableFuture<T> executeDatabaseAsync(Supplier<T> operation) {
         return CompletableFuture.supplyAsync(() -> {
@@ -218,11 +223,11 @@ public class SweetAdaptiveShop extends BukkitPlugin {
                 getLogger().severe("数据库操作失败: " + e.getMessage());
                 throw new RuntimeException(e);
             }
-        }, getScheduler().async()).orTimeout(10, TimeUnit.SECONDS);
+        }, asyncExecutor).orTimeout(10, TimeUnit.SECONDS);
     }
     
     /**
-     * 安全执行数据库操作（无返回值）
+     * 安全执行数据库操作（无返回值）- 修复版本
      */
     public CompletableFuture<Void> executeDatabaseAsync(Runnable operation) {
         return CompletableFuture.runAsync(() -> {
@@ -232,7 +237,7 @@ public class SweetAdaptiveShop extends BukkitPlugin {
                 getLogger().severe("数据库操作失败: " + e.getMessage());
                 throw new RuntimeException(e);
             }
-        }, getScheduler().async()).orTimeout(10, TimeUnit.SECONDS);
+        }, asyncExecutor).orTimeout(10, TimeUnit.SECONDS);
     }
 
     public String getDBKey(OfflinePlayer player) {

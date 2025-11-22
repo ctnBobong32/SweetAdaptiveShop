@@ -152,12 +152,13 @@ public class SellShop implements IShop {
         SweetAdaptiveShop plugin = SweetAdaptiveShop.getInstance();
         double value = dynamicValueAdd * count;
         
-        // 使用异步方式执行数据库操作
-        plugin.executeDatabaseAsync(() -> {
+        // 使用修复后的异步方式执行数据库操作
+        plugin.getScheduler().runTaskAsync(() -> {
             try {
                 addDynamicValue(player, value);
             } catch (Exception e) {
                 plugin.getLogger().severe("更新玩家动态值时出现异常: " + e.getMessage());
+                plugin.getLogger().severe("商店ID: " + id + ", 玩家: " + player.getName() + ", 值: " + value);
             }
         });
         
