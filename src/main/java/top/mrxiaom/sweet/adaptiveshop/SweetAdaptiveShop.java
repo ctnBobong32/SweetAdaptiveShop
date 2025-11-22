@@ -32,11 +32,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
+import java.util.concurrent.*;
 
 public class SweetAdaptiveShop extends BukkitPlugin {
     public static SweetAdaptiveShop getInstance() {
@@ -101,8 +97,9 @@ public class SweetAdaptiveShop extends BukkitPlugin {
     private boolean supportItemsAdder;
     private boolean uuidMode;
     
-    // 添加异步执行器
-    private final Executor asyncExecutor = Executors.newCachedThreadPool();
+    // 添加异步执行器和超时调度器
+    private final ExecutorService asyncExecutor = Executors.newCachedThreadPool();
+    private final ScheduledExecutorService timeoutScheduler = Executors.newScheduledThreadPool(1);
 
     public boolean isSupportTranslatable() {
         return supportTranslatable;
@@ -197,11 +194,57 @@ public class SweetAdaptiveShop extends BukkitPlugin {
         getLogger().info("SweetAdaptiveShop 加载完毕");
     }
 
+    @Override
+    protected void onDisable() {
+        // 关闭执行器
+        asyncExecutor.shutdown();
+        timeoutScheduler.shutdown();
+        try {
+            if (!asyncExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
+                asyncExecutor.shutdownNow();
+            }
+            if (!timeoutScheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                timeoutScheduler.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            asyncExecutor.shutdownNow();
+            timeoutScheduler.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        super.onDisable();
+    }
+
     /**
-     * 安全地获取玩家名称（带超时保护）- 修复版本
+     * Java 8 兼容的超时包装方法
+     */
+    private <T> CompletableFuture<T> withTimeout(CompletableFuture<T> future, long timeout, TimeUnit timeUnit) {
+        final CompletableFuture<T> timeoutFuture = new CompletableFuture<>();
+        
+        // 设置超时任务
+        final ScheduledFuture<?> timeoutTask = timeoutScheduler.schedule(() -> {
+            if (!future.isDone()) {
+                timeoutFuture.completeExceptionally(new TimeoutException("操作超时"));
+            }
+        }, timeout, timeUnit);
+        
+        // 当原始任务完成时，取消超时任务
+        future.whenComplete((result, throwable) -> {
+            timeoutTask.cancel(false);
+            if (throwable != null) {
+                timeoutFuture.completeExceptionally(throwable);
+            } else {
+                timeoutFuture.complete(result);
+            }
+        });
+        
+        return timeoutFuture;
+    }
+
+    /**
+     * 安全地获取玩家名称（带超时保护）- Java 8 兼容版本
      */
     public CompletableFuture<String> getPlayerNameAsync(OfflinePlayer player) {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
             try {
                 String name = player.getName();
                 return name != null ? name : player.getUniqueId().toString();
@@ -209,35 +252,41 @@ public class SweetAdaptiveShop extends BukkitPlugin {
                 getLogger().warning("获取玩家名称失败: " + e.getMessage());
                 return player.getUniqueId().toString();
             }
-        }, asyncExecutor).orTimeout(3, TimeUnit.SECONDS);
+        }, asyncExecutor);
+        
+        return withTimeout(future, 3, TimeUnit.SECONDS);
     }
     
     /**
-     * 安全执行数据库操作 - 修复版本
+     * 安全执行数据库操作 - Java 8 兼容版本
      */
     public <T> CompletableFuture<T> executeDatabaseAsync(Supplier<T> operation) {
-        return CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<T> future = CompletableFuture.supplyAsync(() -> {
             try {
                 return operation.get();
             } catch (Exception e) {
                 getLogger().severe("数据库操作失败: " + e.getMessage());
                 throw new RuntimeException(e);
             }
-        }, asyncExecutor).orTimeout(10, TimeUnit.SECONDS);
+        }, asyncExecutor);
+        
+        return withTimeout(future, 10, TimeUnit.SECONDS);
     }
     
     /**
-     * 安全执行数据库操作（无返回值）- 修复版本
+     * 安全执行数据库操作（无返回值）- Java 8 兼容版本
      */
     public CompletableFuture<Void> executeDatabaseAsync(Runnable operation) {
-        return CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
             try {
                 operation.run();
             } catch (Exception e) {
                 getLogger().severe("数据库操作失败: " + e.getMessage());
                 throw new RuntimeException(e);
             }
-        }, asyncExecutor).orTimeout(10, TimeUnit.SECONDS);
+        }, asyncExecutor);
+        
+        return withTimeout(future, 10, TimeUnit.SECONDS);
     }
 
     public String getDBKey(OfflinePlayer player) {
